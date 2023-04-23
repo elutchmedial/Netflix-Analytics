@@ -1,0 +1,36 @@
+-- This is a Netflix analytics project based on the dataset "netflix_titles_info" and "netflix_people". The dataset contains information about movies and TV shows available on Netflix as of September 2021. The dataset includes 8807 records and 13 columns, such as the show ID, type, title, country, date added, release year, rating, duration, listed in, and description.
+The goal of this project is to explore the dataset and answer some questions, such as the number of movies in the database, the most recent batch of TV shows and/or movies added, and the oldest movie in the database.
+
+SELECT 
+people.show_id, people.director, titles.title, titles.type
+FROM "CharlotteChaze/BreakIntoTech"."netflix_people" people
+LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" titles
+ON people.show_id=titles.show_id ;
+
+-- How Many movies are in the database?
+SELECT Count(*) FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" WHERE type = 'Movie';
+-- Answer: 6131
+
+-- When was the most recent batch of tv shows and/or movies added to the database?
+SELECT max(date(date_added)) from "CharlotteChaze/BreakIntoTech"."netflix_titles_info";
+--Answer: 2021-09-25
+
+-- List all the movies and tv shows in alphabetical order.
+SELECT (title) FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" ORDER BY title ASC;
+
+-- Who was the Director for the movie Bright Star?
+SELECT director
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" titles
+LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_people" people
+ON titles.show_id=people.show_id
+WHERE title= 'Bright Star';
+--Answer: Jane Campion
+
+
+-- What is the oldest movie in the database and what year was it made?
+SELECT title, release_year
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" titles
+WHERE type= 'Movie'
+ORDER BY release_year asc LIMIT 1;
+--Answer: Prelude to War, 1942
+
